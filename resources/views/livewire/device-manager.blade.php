@@ -91,7 +91,7 @@ new class extends Component {
         $user = Auth::user();
 
         if (method_exists($user, 'devices')) {
-            $user->devices->each(function (Device $device) use ($user) {
+            $user->devices()->get()->each(function (Device $device) use ($user) {
                 if (! $device->isCurrent()) {
                     $device->sessions()
                         ->where('user_id', $user->getAuthIdentifier())
