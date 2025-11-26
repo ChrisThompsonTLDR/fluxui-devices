@@ -9,6 +9,8 @@ use Ninja\DeviceTracker\Models\Session;
 new class extends Component {
     public bool $confirmingEndSession = false;
 
+    public bool $confirmingEndAllSessions = false;
+
     public ?string $sessionUuid = null;
 
     public string $password = '';
@@ -94,15 +96,25 @@ new class extends Component {
         }
 
         $this->confirmingEndSession = false;
+        $this->confirmingEndAllSessions = false;
         $this->sessionUuid = null;
         $this->password = '';
 
         $this->dispatch('all-sessions-ended');
     }
 
+    public function confirmEndAllSessions(): void
+    {
+        $this->resetErrorBag();
+        $this->sessionUuid = null;
+        $this->password = '';
+        $this->confirmingEndAllSessions = true;
+    }
+
     public function cancelEndSession(): void
     {
         $this->confirmingEndSession = false;
+        $this->confirmingEndAllSessions = false;
         $this->sessionUuid = null;
         $this->password = '';
     }
@@ -198,11 +210,9 @@ new class extends Component {
     @endif
 
     <div class="flex items-center mt-5 gap-4">
-        <flux:modal.trigger name="confirm-end-all-sessions">
-            <flux:button wire:loading.attr="disabled">
-                {{ __('End Other Sessions') }}
-            </flux:button>
-        </flux:modal.trigger>
+        <flux:button wire:click="confirmEndAllSessions" wire:loading.attr="disabled">
+            {{ __('End Other Sessions') }}
+        </flux:button>
 
         <x-action-message class="me-3" on="all-sessions-ended">
             {{ __('Done.') }}
@@ -243,7 +253,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- End all sessions modal --}}
-    <flux:modal name="confirm-end-all-sessions" class="max-w-lg" focusable>
+    <flux:modal wire:model.self="confirmingEndAllSessions" name="confirm-end-all-sessions" class="max-w-lg" focusable>
         <form wire:submit="endAllSessions" class="space-y-6">
             <div>
                 <flux:heading size="lg">{{ __('End All Other Sessions') }}</flux:heading>
@@ -262,11 +272,9 @@ new class extends Component {
             <flux:error name="password" />
 
             <div class="flex justify-end space-x-2 rtl:space-x-reverse">
-                <flux:modal.close>
-                    <flux:button variant="filled">
-                        {{ __('Cancel') }}
-                    </flux:button>
-                </flux:modal.close>
+                <flux:button variant="filled" wire:click="cancelEndSession">
+                    {{ __('Cancel') }}
+                </flux:button>
 
                 <flux:button variant="danger" type="submit">
                     {{ __('End All Sessions') }}

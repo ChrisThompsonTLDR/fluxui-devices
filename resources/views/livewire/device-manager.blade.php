@@ -9,6 +9,8 @@ use Ninja\DeviceTracker\Models\Device;
 new class extends Component {
     public bool $confirmingSignOut = false;
 
+    public bool $confirmingSignOutAll = false;
+
     public ?string $deviceUuid = null;
 
     public string $password = '';
@@ -103,15 +105,25 @@ new class extends Component {
         }
 
         $this->confirmingSignOut = false;
+        $this->confirmingSignOutAll = false;
         $this->deviceUuid = null;
         $this->password = '';
 
         $this->dispatch('all-devices-signed-out');
     }
 
+    public function confirmSignOutAllDevices(): void
+    {
+        $this->resetErrorBag();
+        $this->deviceUuid = null;
+        $this->password = '';
+        $this->confirmingSignOutAll = true;
+    }
+
     public function cancelSignOut(): void
     {
         $this->confirmingSignOut = false;
+        $this->confirmingSignOutAll = false;
         $this->deviceUuid = null;
         $this->password = '';
     }
@@ -188,11 +200,9 @@ new class extends Component {
     @endif
 
     <div class="flex items-center mt-5 gap-4">
-        <flux:modal.trigger name="confirm-sign-out-all-devices">
-            <flux:button wire:loading.attr="disabled">
-                {{ __('Sign Out Other Devices') }}
-            </flux:button>
-        </flux:modal.trigger>
+        <flux:button wire:click="confirmSignOutAllDevices" wire:loading.attr="disabled">
+            {{ __('Sign Out Other Devices') }}
+        </flux:button>
 
         <x-action-message class="me-3" on="all-devices-signed-out">
             {{ __('Done.') }}
@@ -233,7 +243,7 @@ new class extends Component {
     </flux:modal>
 
     {{-- Sign out all devices modal --}}
-    <flux:modal name="confirm-sign-out-all-devices" class="max-w-lg" focusable>
+    <flux:modal wire:model.self="confirmingSignOutAll" name="confirm-sign-out-all-devices" class="max-w-lg" focusable>
         <form wire:submit="signOutAllDevices" class="space-y-6">
             <div>
                 <flux:heading size="lg">{{ __('Sign Out All Other Devices') }}</flux:heading>
@@ -252,11 +262,9 @@ new class extends Component {
             <flux:error name="password" />
 
             <div class="flex justify-end space-x-2 rtl:space-x-reverse">
-                <flux:modal.close>
-                    <flux:button variant="filled">
-                        {{ __('Cancel') }}
-                    </flux:button>
-                </flux:modal.close>
+                <flux:button variant="filled" wire:click="cancelSignOut">
+                    {{ __('Cancel') }}
+                </flux:button>
 
                 <flux:button variant="danger" type="submit">
                     {{ __('Sign Out All Devices') }}
