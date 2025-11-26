@@ -173,11 +173,11 @@ new class extends Component {
                                 </div>
                             </div>
 
-                            @if ($session->status?->value !== 'active')
+                            @if ($session->status && $session->status->value !== 'active')
                                 <div class="mt-1">
                                     <flux:badge
                                         size="sm"
-                                        :color="match($session->status?->value) {
+                                        :color="match($session->status->value) {
                                             'blocked' => 'red',
                                             'locked' => 'amber',
                                             'inactive' => 'zinc',
