@@ -19,7 +19,7 @@ Inspired by Laravel Jetstream's browser session management, this package provide
 - Laravel 11.0+ or 12.0+
 - Livewire 3.0+
 - Livewire Volt 1.0+
-- [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices) ^1.0
+- [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices) ^2.0
 - [Flux UI](https://fluxui.dev) (requires license)
 
 ## Installation
