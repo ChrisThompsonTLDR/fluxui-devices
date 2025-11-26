@@ -14,7 +14,7 @@
         "illuminate/support": "^11.0|^12.0",
         "livewire/livewire": "^3.0|^4.0",
         "livewire/volt": "^1.0",
-        "diego-ninja/laravel-devices": "^2.0|dev-feature/google2fa-v9"
+        "diego-ninja/laravel-devices": "dev-feature/google2fa-v9"
     },
     "autoload": {
         "psr-4": {
