@@ -33,6 +33,7 @@ new class extends Component {
 
     public function confirmSignOut(string $uuid): void
     {
+        $this->resetErrorBag();
         $this->deviceUuid = $uuid;
         $this->password = '';
         $this->confirmingSignOut = true;
@@ -133,13 +134,13 @@ new class extends Component {
                     <div class="flex items-center">
                         <div class="shrink-0">
                             @if ($device->device_type === 'desktop')
-                                <flux:icon.computer-desktop class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="computer-desktop" class="size-8 text-zinc-500 dark:text-zinc-400" />
                             @elseif ($device->device_type === 'tablet')
-                                <flux:icon.device-tablet class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="device-tablet" class="size-8 text-zinc-500 dark:text-zinc-400" />
                             @elseif ($device->device_type === 'phone' || $device->device_type === 'mobile')
-                                <flux:icon.device-phone-mobile class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="device-phone-mobile" class="size-8 text-zinc-500 dark:text-zinc-400" />
                             @else
-                                <flux:icon.computer-desktop class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="computer-desktop" class="size-8 text-zinc-500 dark:text-zinc-400" />
                             @endif
                         </div>
 
@@ -217,6 +218,8 @@ new class extends Component {
                 x-on:confirming-sign-out-device.window="setTimeout(() => $el.querySelector('input').focus(), 250)"
             />
 
+            <flux:error name="password" />
+
             <div class="flex justify-end space-x-2 rtl:space-x-reverse">
                 <flux:button variant="filled" wire:click="cancelSignOut">
                     {{ __('Cancel') }}
@@ -245,6 +248,8 @@ new class extends Component {
                 type="password"
                 autocomplete="current-password"
             />
+
+            <flux:error name="password" />
 
             <div class="flex justify-end space-x-2 rtl:space-x-reverse">
                 <flux:modal.close>
