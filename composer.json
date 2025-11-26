@@ -12,7 +12,7 @@
     "require": {
         "php": "^8.2",
         "illuminate/support": "^11.0|^12.0",
-        "livewire/livewire": "^3.0",
+        "livewire/livewire": "^3.0|^4.0",
         "livewire/volt": "^1.0",
         "diego-ninja/laravel-devices": "^1.0"
     },
