@@ -52,14 +52,21 @@ new class extends Component {
             ]);
         }
 
-        $device = Device::byUuid($this->deviceUuid);
+        $user = Auth::user();
 
-        if ($device) {
-            // End all sessions for this device belonging to the current user
-            $device->sessions()
-                ->where('user_id', Auth::id())
-                ->whereNull('finished_at')
-                ->each(fn ($session) => $session->end());
+        // Only look up devices belonging to the current user
+        if (method_exists($user, 'devices')) {
+            $device = $user->devices()
+                ->where('uuid', $this->deviceUuid)
+                ->first();
+
+            if ($device) {
+                // End all sessions for this device belonging to the current user
+                $device->sessions()
+                    ->where('user_id', $user->getAuthIdentifier())
+                    ->whereNull('finished_at')
+                    ->each(fn ($session) => $session->end());
+            }
         }
 
         $this->confirmingSignOut = false;

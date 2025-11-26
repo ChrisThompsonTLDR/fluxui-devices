@@ -49,10 +49,18 @@ new class extends Component {
             ]);
         }
 
-        $session = Session::byUuid($this->sessionUuid);
+        $user = Auth::user();
 
-        if ($session && $session->user_id === Auth::id()) {
-            $session->end();
+        // Only look up sessions belonging to the current user
+        if (method_exists($user, 'sessions')) {
+            $session = $user->sessions()
+                ->where('uuid', $this->sessionUuid)
+                ->whereNull('finished_at')
+                ->first();
+
+            if ($session) {
+                $session->end();
+            }
         }
 
         $this->confirmingEndSession = false;
