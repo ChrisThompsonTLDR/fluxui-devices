@@ -159,7 +159,7 @@ All destructive actions (signing out devices, ending sessions) require the user 
 
 ## Credits
 
-- [Chris Thompson](https://christhompsontldr.com)
+- [Chris Thompson](https://github.com/christhompsontldr)
 - [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices) - The underlying device tracking package
 - [Laravel Jetstream](https://jetstream.laravel.com) - Inspiration for the browser sessions UI pattern
 - [Flux UI](https://fluxui.dev) - The beautiful UI component library
