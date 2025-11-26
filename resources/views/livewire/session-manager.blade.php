@@ -184,7 +184,7 @@ new class extends Component {
                                             default => 'zinc',
                                         }"
                                     >
-                                        {{ ucfirst($session->status->value) }}
+                                        {{ ucfirst($session->status?->value ?? '') }}
                                     </flux:badge>
                                 </div>
                             @endif
