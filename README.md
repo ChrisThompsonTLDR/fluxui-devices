@@ -17,10 +17,19 @@ Inspired by Laravel Jetstream's browser session management, this package provide
 
 - PHP 8.2+
 - Laravel 11.0+ or 12.0+
-- Livewire 3.0+
+- Livewire 3.0+ or 4.0+
 - Livewire Volt 1.0+
 - [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices) ^2.0
 - [Flux UI](https://fluxui.dev) (requires license)
+
+### Important Notes
+
+- **String User IDs**: If your application uses string-based user IDs (e.g., UUIDs or custom IDs), you'll need to update the published migrations to use `string` instead of `integer` or `bigInteger` for `user_id` columns in:
+  - `device_sessions` table (`user_id` and `blocked_by`)
+  - `google_2fa` table (`user_id`)
+  - `user_devices` table (`user_id`)
+
+- **MaxMind Location Provider**: The `MaxmindLocationProvider` requires a GeoIP2 database file. If you don't have one configured, you should remove it from the `location_providers` array in `config/devices.php` to avoid binding resolution errors.
 
 ## Installation
 
@@ -38,17 +47,21 @@ php artisan vendor:publish --provider="Ninja\DeviceTracker\DeviceTrackerServiceP
 php artisan migrate
 ```
 
-3. Add the `HasDevices` trait to your User model:
+3. Add the `HasDevices` and `Has2FA` traits to your User model:
 
 ```php
+use Ninja\DeviceTracker\Traits\Has2FA;
 use Ninja\DeviceTracker\Traits\HasDevices;
 
 class User extends Authenticatable
 {
+    use Has2FA;
     use HasDevices;
     // ...
 }
 ```
+
+**Note:** The `Has2FA` trait is required for the package to check if 2FA is enabled for users. If you're not using 2FA, you can still include the trait - it will simply return `false` when checking if 2FA is enabled.
 
 4. Optionally publish the views for customization:
 
