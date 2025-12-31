@@ -135,13 +135,13 @@ new class extends Component {
                     <div class="flex items-center">
                         <div class="shrink-0">
                             @if ($session->device && $session->device->device_type === 'desktop')
-                                <flux:icon name="computer-desktop" class="size-8 text-stone-500 dark:text-stone-400" />
+                                <x-flux::icon.computer class="size-8 text-stone-500 dark:text-stone-400" />
                             @elseif ($session->device && $session->device->device_type === 'tablet')
-                                <flux:icon name="device-tablet" class="size-8 text-stone-500 dark:text-stone-400" />
+                                <x-flux::icon.tablet class="size-8 text-stone-500 dark:text-stone-400" />
                             @elseif ($session->device && ($session->device->device_type === 'phone' || $session->device->device_type === 'mobile'))
-                                <flux:icon name="device-phone-mobile" class="size-8 text-stone-500 dark:text-stone-400" />
+                                <x-flux::icon.smartphone class="size-8 text-stone-500 dark:text-stone-400" />
                             @else
-                                <flux:icon name="computer-desktop" class="size-8 text-stone-500 dark:text-stone-400" />
+                                <x-flux::icon.computer class="size-8 text-stone-500 dark:text-stone-400" />
                             @endif
                         </div>
 

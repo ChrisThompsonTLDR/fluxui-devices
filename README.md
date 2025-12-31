@@ -12,6 +12,7 @@ Inspired by Laravel Jetstream's browser session management, this package provide
 - 🌍 **Location Display** - Shows session location information when available
 - 🎨 **FluxUI Components** - Beautiful, consistent UI using Flux components
 - ⚡ **Livewire Volt** - Modern reactive components with Volt
+- 🆓 **Custom Icons** - Device type icons that work without Flux Pro license
 
 ## Requirements
 
@@ -20,22 +21,16 @@ Inspired by Laravel Jetstream's browser session management, this package provide
 - Livewire 3.0+
 - Livewire Volt 1.0+
 - [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices) ^2.0
-- [Flux UI](https://fluxui.dev) (requires license)
+- [Flux UI](https://fluxui.dev) (Pro license recommended, but not required for basic functionality)
 
 ## Installation
 
-1. Install the package via Composer:
+1. Install and configure [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices)
+
+2. Install the package via Composer:
 
 ```bash
 composer require christhompsontldr/fluxui-devices
-```
-
-2. Ensure you have `diego-ninja/laravel-devices` installed and configured:
-
-```bash
-composer require diego-ninja/laravel-devices
-php artisan vendor:publish --provider="Ninja\DeviceTracker\DeviceTrackerServiceProvider"
-php artisan migrate
 ```
 
 3. Add the `HasDevices` trait to your User model:
@@ -50,7 +45,7 @@ class User extends Authenticatable
 }
 ```
 
-4. Optionally publish the views for customization:
+4. Optionally publish the views for customization (includes custom icons):
 
 ```bash
 php artisan vendor:publish --tag=fluxui-devices-views
@@ -163,6 +158,7 @@ All destructive actions (signing out devices, ending sessions) require the user 
 - [diego-ninja/laravel-devices](https://github.com/diego-ninja/laravel-devices) - The underlying device tracking package
 - [Laravel Jetstream](https://jetstream.laravel.com) - Inspiration for the browser sessions UI pattern
 - [Flux UI](https://fluxui.dev) - The beautiful UI component library
+- [Lucide](https://lucide.dev) - Icon library used for custom device type icons
 
 ## License
 
