@@ -134,7 +134,7 @@ To customize the component views:
 php artisan vendor:publish --tag=fluxui-devices-views
 ```
 
-Views will be published to `resources/views/vendor/fluxui-devices/`.
+Views will be published to `resources/views/components/`.
 
 ### Action Message Component
 

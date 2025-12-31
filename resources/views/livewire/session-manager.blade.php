@@ -120,15 +120,13 @@ new class extends Component {
     }
 }; ?>
 
-<section class="space-y-6">
-    <div class="relative mb-5">
-        <flux:heading>{{ __('Session Management') }}</flux:heading>
-        <flux:subheading>{{ __('Manage and end your active browser sessions.') }}</flux:subheading>
-    </div>
+<section class="w-full">
+    @include('partials.settings-heading')
 
-    <flux:text class="max-w-xl">
-        {{ __('If necessary, you may end all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
-    </flux:text>
+    <x-settings.layout :heading="__('Session Management')" :subheading="__('Manage and end your active browser sessions.')">
+        <flux:text class="max-w-xl">
+            {{ __('If necessary, you may end all of your other browser sessions across all of your devices. Some of your recent sessions are listed below; however, this list may not be exhaustive. If you feel your account has been compromised, you should also update your password.') }}
+        </flux:text>
 
     @if (count($this->sessions) > 0)
         <div class="mt-5 space-y-6">
@@ -137,18 +135,18 @@ new class extends Component {
                     <div class="flex items-center">
                         <div class="shrink-0">
                             @if ($session->device && $session->device->device_type === 'desktop')
-                                <flux:icon name="computer-desktop" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="computer-desktop" class="size-8 text-stone-500 dark:text-stone-400" />
                             @elseif ($session->device && $session->device->device_type === 'tablet')
-                                <flux:icon name="device-tablet" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="device-tablet" class="size-8 text-stone-500 dark:text-stone-400" />
                             @elseif ($session->device && ($session->device->device_type === 'phone' || $session->device->device_type === 'mobile'))
-                                <flux:icon name="device-phone-mobile" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="device-phone-mobile" class="size-8 text-stone-500 dark:text-stone-400" />
                             @else
-                                <flux:icon name="computer-desktop" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="computer-desktop" class="size-8 text-stone-500 dark:text-stone-400" />
                             @endif
                         </div>
 
                         <div class="ms-3">
-                            <div class="text-sm text-zinc-600 dark:text-zinc-400">
+                            <div class="text-sm text-stone-600 dark:text-stone-400">
                                 @if ($session->device)
                                     {{ $session->device->platform ?? __('Unknown Platform') }} - {{ $session->device->browser ?? __('Unknown Browser') }}
                                 @else
@@ -157,7 +155,7 @@ new class extends Component {
                             </div>
 
                             <div>
-                                <div class="text-xs text-zinc-500">
+                                <div class="text-xs text-stone-500">
                                     {{ $session->ip }},
 
                                     @if ($session->isCurrent())
@@ -204,7 +202,7 @@ new class extends Component {
             @endforeach
         </div>
     @else
-        <flux:text class="text-zinc-500">
+        <flux:text class="text-stone-500">
             {{ __('No active sessions found.') }}
         </flux:text>
     @endif
@@ -282,4 +280,5 @@ new class extends Component {
             </div>
         </form>
     </flux:modal>
+    </x-settings.layout>
 </section>

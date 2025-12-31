@@ -129,15 +129,13 @@ new class extends Component {
     }
 }; ?>
 
-<section class="space-y-6">
-    <div class="relative mb-5">
-        <flux:heading>{{ __('Device Management') }}</flux:heading>
-        <flux:subheading>{{ __('Manage and sign out your active devices.') }}</flux:subheading>
-    </div>
+<section class="w-full">
+    @include('partials.settings-heading')
 
-    <flux:text class="max-w-xl">
-        {{ __('If necessary, you may sign out of all of your other device sessions across all of your devices. Some of your recent devices are listed below. If you feel your account has been compromised, you should also update your password.') }}
-    </flux:text>
+    <x-settings.layout :heading="__('Device Management')" :subheading="__('Manage and sign out your active devices.')">
+        <flux:text class="max-w-xl">
+            {{ __('If necessary, you may sign out of all of your other device sessions across all of your devices. Some of your recent devices are listed below. If you feel your account has been compromised, you should also update your password.') }}
+        </flux:text>
 
     @if (count($this->devices) > 0)
         <div class="mt-5 space-y-6">
@@ -146,23 +144,23 @@ new class extends Component {
                     <div class="flex items-center">
                         <div class="shrink-0">
                             @if ($device->device_type === 'desktop')
-                                <flux:icon name="computer-desktop" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="computer-desktop" class="size-8 text-stone-500 dark:text-stone-400" />
                             @elseif ($device->device_type === 'tablet')
-                                <flux:icon name="device-tablet" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="device-tablet" class="size-8 text-stone-500 dark:text-stone-400" />
                             @elseif ($device->device_type === 'phone' || $device->device_type === 'mobile')
-                                <flux:icon name="device-phone-mobile" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="device-phone-mobile" class="size-8 text-stone-500 dark:text-stone-400" />
                             @else
-                                <flux:icon name="computer-desktop" class="size-8 text-zinc-500 dark:text-zinc-400" />
+                                <flux:icon name="computer-desktop" class="size-8 text-stone-500 dark:text-stone-400" />
                             @endif
                         </div>
 
                         <div class="ms-3">
-                            <div class="text-sm text-zinc-600 dark:text-zinc-400">
+                            <div class="text-sm text-stone-600 dark:text-stone-400">
                                 {{ $device->platform ?? __('Unknown Platform') }} - {{ $device->browser ?? __('Unknown Browser') }}
                             </div>
 
                             <div>
-                                <div class="text-xs text-zinc-500">
+                                <div class="text-xs text-stone-500">
                                     @php
                                         $latestSession = $device->sessions->first();
                                     @endphp
@@ -194,7 +192,7 @@ new class extends Component {
             @endforeach
         </div>
     @else
-        <flux:text class="text-zinc-500">
+        <flux:text class="text-stone-500">
             {{ __('No devices found.') }}
         </flux:text>
     @endif
@@ -272,4 +270,5 @@ new class extends Component {
             </div>
         </form>
     </flux:modal>
+    </x-settings.layout>
 </section>
