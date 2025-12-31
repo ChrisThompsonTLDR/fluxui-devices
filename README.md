@@ -45,10 +45,16 @@ class User extends Authenticatable
 }
 ```
 
-4. Optionally publish the views for customization (includes custom icons):
+4. Publish the configuration file:
 
 ```bash
-php artisan vendor:publish --tag=fluxui-devices-views
+php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider" --tag=fluxui-devices-config
+```
+
+5. Optionally publish the views for customization (includes custom icons):
+
+```bash
+php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider" --tag=fluxui-devices-views
 ```
 
 ## Usage
@@ -91,32 +97,26 @@ This component displays:
 
 To add these components to the settings page in the Laravel Livewire Starter Kit:
 
-1. Add a new nav item in `resources/views/components/settings/layout.blade.php`:
+1. Publish the package views:
 
-```blade
-<flux:navlist.item :href="route('devices.show')" wire:navigate>{{ __('Devices') }}</flux:navlist.item>
+```bash
+php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider" --tag=fluxui-devices-views
 ```
 
-2. Create a new route in `routes/web.php`:
+2. Add a new nav item in `resources/views/components/settings/layout.blade.php`:
+
+```blade
+<flux:navlist.item href="/settings/devices" wire:navigate>{{ __('Devices') }}</flux:navlist.item>
+```
+
+3. Add the route to `routes/web.php`:
 
 ```php
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/settings/devices', function () {
+    Route::get(config('fluxui-devices.routes.devices'), function () {
         return view('settings.devices');
     })->name('devices.show');
 });
-```
-
-3. Create the view file `resources/views/settings/devices.blade.php`:
-
-```blade
-<x-settings.layout heading="Devices & Sessions" subheading="Manage your devices and active sessions">
-    <livewire:fluxui-devices::device-manager />
-
-    <flux:separator class="my-10" />
-
-    <livewire:fluxui-devices::session-manager />
-</x-settings.layout>
 ```
 
 ## Customization
@@ -129,11 +129,9 @@ To customize the component views:
 php artisan vendor:publish --tag=fluxui-devices-views
 ```
 
-Views will be published to `resources/views/components/`.
-
 ### Action Message Component
 
-The components use an `action-message` component for success feedback. If you don't have this component from the Laravel Livewire Starter Kit, you can create a simple one:
+The components use an `action-message` component for success feedback. This component should be available if you're using the Laravel Livewire Starter Kit. If you don't have it, you can create a simple one:
 
 ```blade
 {{-- resources/views/components/action-message.blade.php --}}
@@ -148,9 +146,11 @@ The components use an `action-message` component for success feedback. If you do
 </div>
 ```
 
+Or simply replace `<x-action-message on="event-name">Success!</x-action-message>` with your own success notification component.
+
 ## Security
 
-All destructive actions (signing out devices, ending sessions) require the user to confirm their password. This follows the same security pattern used in Laravel Jetstream.
+All destructive actions (signing out devices, ending sessions) require the user to confirm their password. This follows the same security pattern used in Livewire Starter Kit.
 
 ## Credits
 
