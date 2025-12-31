@@ -45,16 +45,10 @@ class User extends Authenticatable
 }
 ```
 
-4. Publish the configuration file:
+4. Optionally publish the views for customization (includes custom icons):
 
 ```bash
-php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider" --tag=fluxui-devices-config
-```
-
-5. Optionally publish the views for customization (includes custom icons):
-
-```bash
-php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider" --tag=fluxui-devices-views
+php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider"
 ```
 
 ## Usage
@@ -100,20 +94,20 @@ To add these components to the settings page in the Laravel Livewire Starter Kit
 1. Publish the package views:
 
 ```bash
-php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider" --tag=fluxui-devices-views
+php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider"
 ```
 
 2. Add a new nav item in `resources/views/components/settings/layout.blade.php`:
 
 ```blade
-<flux:navlist.item href="/settings/devices" wire:navigate>{{ __('Devices') }}</flux:navlist.item>
+<flux:navlist.item :href="config('devices.device_route')" wire:navigate>{{ __('Devices') }}</flux:navlist.item>
 ```
 
 3. Add the route to `routes/web.php`:
 
 ```php
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get(config('fluxui-devices.routes.devices'), function () {
+    Route::get(config('devices.device_route'), function () {
         return view('settings.devices');
     })->name('devices.show');
 });
@@ -126,7 +120,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 To customize the component views:
 
 ```bash
-php artisan vendor:publish --tag=fluxui-devices-views
+php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider"
 ```
 
 ### Action Message Component

@@ -16,12 +16,10 @@ class FluxuiDevicesServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'fluxui-devices');
 
-        $this->mergeConfigFrom(__DIR__.'/../config/fluxui-devices.php', 'fluxui-devices');
+        $this->mergeConfigFrom(__DIR__.'/../config/devices.php', 'devices');
 
         if ($this->app->runningInConsole()) {
-            $this->publishes([
-                __DIR__.'/../config/fluxui-devices.php' => config_path('fluxui-devices.php'),
-            ], 'fluxui-devices-config');
+            // Config is merged automatically, no need to publish separately
 
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views'),
