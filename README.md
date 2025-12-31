@@ -45,6 +45,8 @@ class User extends Authenticatable
 }
 ```
 
+**Note:** You can customize the device management route by modifying `config('devices.device_route')` in your published `config/devices.php` file.
+
 4. Optionally publish the views for customization (includes custom icons):
 
 ```bash
@@ -97,21 +99,13 @@ To add these components to the settings page in the Laravel Livewire Starter Kit
 php artisan vendor:publish --provider="ChrisThompsonTLDR\\FluxuiDevices\\FluxuiDevicesServiceProvider"
 ```
 
-2. Add a new nav item in `resources/views/components/settings/layout.blade.php`:
+2. Add a nav item in `resources/views/components/settings/layout.blade.php`:
 
 ```blade
 <flux:navlist.item :href="config('devices.device_route')" wire:navigate>{{ __('Devices') }}</flux:navlist.item>
 ```
 
-3. Add the route to `routes/web.php`:
-
-```php
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get(config('devices.device_route'), function () {
-        return view('settings.devices');
-    })->name('devices.show');
-});
-```
+The route is automatically registered by the package.
 
 ## Customization
 

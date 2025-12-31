@@ -15,6 +15,7 @@ class FluxuiDevicesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'fluxui-devices');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         $this->mergeConfigFrom(__DIR__.'/../config/devices.php', 'devices');
 
