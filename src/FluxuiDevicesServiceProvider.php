@@ -2,6 +2,7 @@
 
 namespace ChrisThompsonTLDR\FluxuiDevices;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Volt\Volt;
 
@@ -15,12 +16,20 @@ class FluxuiDevicesServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'fluxui-devices');
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+
+        // Laravel 12 compatibility - register routes directly
+        if (!$this->app->routesAreCached()) {
+            Route::middleware(['web', 'auth', 'verified'])->group(function () {
+                Route::view(config('devices.device_route', 'settings/devices'), 'fluxui-devices::settings.devices')->name('devices.show');
+            });
+        }
 
         $this->mergeConfigFrom(__DIR__.'/../config/devices.php', 'devices');
 
         if ($this->app->runningInConsole()) {
-            // Config is merged automatically, no need to publish separately
+            $this->publishes([
+                __DIR__.'/../config/devices.php' => config_path('devices.php'),
+            ], 'fluxui-devices-config');
 
             $this->publishes([
                 __DIR__.'/../resources/views' => resource_path('views'),

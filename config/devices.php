@@ -11,5 +11,5 @@ return [
     | you define in your web.php file.
     |
     */
-    'device_route' => '/settings/devices',
+    'device_route' => 'settings/devices',
 ];
